@@ -1,0 +1,146 @@
+/* Global Page Styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+    background-color: #f7f7f7;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+}
+
+/* Grid Container Setup */
+.container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    max-width: 1200px;
+    margin: 20px auto;
+}
+
+/* Map Container */
+.map-container {
+    grid-column: 1 / -1;
+    height: 400px;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+#map {
+    height: 100%;
+    width: 100%;
+}
+
+/* Section Styling */
+.section {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.section:hover {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* Headings, Strong, and Detail Titles */
+h2, h3, .section h2, .section h3, #firstHeading, .detail-title, strong, .section strong {
+    color: #007bff;
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+/* List and Item Styling */
+ul, li, .section ul, .section li, #content ul, #content ul li {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+li:last-child, .section li:last-child, #content ul li:last-child {
+    border-bottom: none;
+}
+
+/* Links and Button Styles */
+a, .back-link, #bodyContent a, .preview-button {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease, background-color 0.3s ease, transform 0.2s;
+}
+
+.back-link, .preview-button {
+    background-color: #007bff;
+    color: #ffffff;
+    padding: 12px 25px;
+    border-radius: 8px;
+    display: block;
+    width: fit-content;
+    margin: 20px auto;
+}
+
+.back-link:hover, .back-link:focus, .preview-button:hover, .preview-button:focus {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+/* Tickets Info Section Specific Styles */
+.tickets-info-section .scroll-container {
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 10px;
+    margin-top: 10px;
+    border: 1px solid #eaeaea;
+    border-radius: 8px;
+}
+
+.tickets-info-section .amenity-item {
+    background-color: #f9f9f9;
+    margin-bottom: 10px;
+    padding: 15px;
+    border-left: 4px solid #007bff;
+    transition: transform 0.2s ease-in-out, border-color 0.2s ease;
+}
+
+.tickets-info-section .amenity-item:hover {
+    transform: translateY(-3px);
+    border-left-color: #0056b3;
+}
+
+.tickets-info-section .amenity-name {
+    font-size: 1.1em;
+    color: #007bff;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.tickets-info-section .amenity-details p, .tickets-info-section .amenity-details strong {
+    margin: 5px 0;
+    font-size: 0.95em;
+    color: #333;
+}
+
+/* Responsive Design Adjustments */
+@media (max-width: 1024px) {
+    .container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    .map-container {
+        height: 250px;
+    }
+    .section {
+        padding: 20px;
+    }
+    h2, h3 {
+        font-size: 1.25rem;
+    }
+}

@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Event Details - {{ team_data.city }} {{ team_data.team }}</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/map.css">
+    <style>
+        .scroll-container {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-top: 20px;
+            background-color: #f9f9f9;
+        }
+        .amenity-item {
+            cursor: pointer;
+            margin-bottom: 15px;
+            padding: 10px;
+            border-left: 4px solid #007BFF;
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+        .amenity-item:hover {
+            transform: translateY(-2px);
+            border-left-color: #0056b3;
+        }
+        .amenity-item strong {
+            display: block;
+            color: #DAA520; /* Gold color for a more distinctive look */
+            margin-bottom: 5px;
+            font-size: 1.2em;
+            font-family: 'Georgia', serif; /* More distinctive, professional font */
+            font-weight: bold;
+        }
+        .amenity-name {
+            color: black; /* Gold color for distinction */
+            font-weight: bold;
+            font-family: 'Georgia', serif; /* A more elegant font */
+        }
+        .map-container {
+            position: -webkit-sticky; /* For Safari */
+            position: sticky;
+            top: 0; /* Adjust this value based on your header's height or desired offset */
+            z-index: 10;
+            height: 400px; /* Or your desired map height */
+            background-color: white; /* Background color of the map container */
+        }
+    </style>
+    
+    
+    <script>
+                // Ensure the initMap function is globally accessible by assigning it to the window object
+                window.initMap = function() {
+                    var categoryColors = {
+                'restaurants_bars': 'red',
+                'accommodations': 'blue',
+                'tourist_attractions': 'green',
+                'team_related_activities': 'purple'
+            };
+                    // Assuming team_data.venue.coordinates contains valid latitude and longitude
+                    var venueLocation = {
+                        lat: Number("{{ team_data.venue.coordinates.latitude }}"),
+                        lng: Number("{{ team_data.venue.coordinates.longitude }}"),
+                    };
+
+                    // Initialize the map
+                    var map = new google.maps.Map(document.getElementById("map"), {
+                        zoom: 14,
+                        center: venueLocation,
+                    });
+
+                    // Add a marker for the event venue
+                    addMarker(map, venueLocation, "{{ team_data.venue.name }}", "Event Venue");
+
+                    // Dynamically parse the amenities data and add markers
+                    var amenities = {{ team_data.venue.nearby_amenities | tojson | safe }};
+            Object.keys(amenities).forEach(function(category) {
+                var color = categoryColors[category] || 'gray'; // Default to gray if category not found
+                amenities[category].forEach(function(amenity) {
+                    if (amenity.coordinates) {
+                        addAmenityMarker(map, amenity, color); // Pass color based on category
+                    }
+                });
+            });
+        };
+
+        var markers = {}; // Global object to store markers
+
+function addMarker(map, location, title, label = "", contentString = "", iconColor = "") {
+    var marker = new google.maps.Marker({
+        position: location,
+        map: map,
+        title: title,
+        label: label,
+        icon: iconColor ? getMarkerIcon(iconColor) : null
+    });
+
+    if (contentString !== "") {
+        var infowindow = new google.maps.InfoWindow({content: contentString});
+        marker.addListener("click", function() {
+            infowindow.open(map, marker);
+        });
+    }
+
+    markers[title] = { marker: marker, infowindow: infowindow }; // Store marker
+}
+
+function highlightMarker(name) {
+    var markerInfo = markers[name];
+    if (markerInfo) {
+        // Start animation
+        markerInfo.marker.setAnimation(google.maps.Animation.BOUNCE);
+
+        // Open the InfoWindow
+        markerInfo.infowindow.open(map, markerInfo.marker);
+
+        // Stop animation after 2 seconds (2000 milliseconds)
+        setTimeout(function() {
+            markerInfo.marker.setAnimation(null);
+        }, 2000);
+
+        // Optionally, animate the map to the marker position
+        map.panTo(markerInfo.marker.getPosition());
+    }
+}
+
+
+
+// Utility function to escape HTML special characters to prevent syntax issues
+function escapeHtml(text) {
+    return text.replace(/&/g, "&amp;")
+               .replace(/</g, "&lt;")
+               .replace(/>/g, "&gt;")
+               .replace(/"/g, "&quot;")
+               .replace(/'/g, "&#039;");
+}
+
+// Adjusted addAmenityMarker function example with HTML escaping
+function addAmenityMarker(map, amenity, iconColor) {
+    var contentString = `<div id="content">
+                            <h1 id="firstHeading" class="firstHeading">${escapeHtml(amenity.name)}</h1>
+                            <div id="bodyContent">
+                                <p><strong>Address:</strong> ${escapeHtml(amenity.address)}</p>
+                                <p><strong>Description:</strong> ${escapeHtml(amenity.description)}</p>
+                                <p><strong>Website:</strong> <a href="${escapeHtml(amenity.website)}" target="_blank">${escapeHtml(amenity.website)}</a></p>
+                            </div>
+                         </div>`;
+
+    addMarker(map, {
+        lat: Number(amenity.coordinates.latitude),
+        lng: Number(amenity.coordinates.longitude)
+    }, escapeHtml(amenity.name), "", contentString, iconColor);
+}
+
+
+      // Helper function to create a colored icon
+      function getMarkerIcon(color) {
+          return {
+              path: google.maps.SymbolPath.CIRCLE,
+              fillColor: color,
+              fillOpacity: 0.6,
+              strokeColor: 'black',
+              strokeWeight: 2,
+              scale: 10 // Size of the icon
+          };
+      }
+    </script>
+    <script
+      async
+      defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDtLnjpKoXNBN5bWmVgYAPTyJhdUXf4w8
+      &callback=initMap"
+    ></script>
+  </head>
+  <body>
+</div>
+
+</div>
+<div class="container">
+    <div class="map-container">
+        <div id="map" role="application" aria-label="Map showing event location"></div>
+    </div>
+    <div class="section event-details">
+        <h1>{{ team_data.city }} {{ team_data.team }} at {{ team_data.venue.name }}</h1>
+        <div class="details">
+            <p><span class="detail-title">Venue:</span> {{ team_data.venue.name }}</p>
+            <p><span class="detail-title">Address:</span> {{ team_data.venue.address }}</p>
+            <p><span class="detail-title">Average Ticket Price:</span> {{ team_data.venue.average_ticket_price }}</p>
+        </div>
+        <div class="button-container">
+            <a href="/game-preview" class="preview-button" aria-label="Game Preview">Game Preview</a>
+            <a href="/" class="back-link" aria-label="Back to schedule">Back to schedule</a>
+        </div>
+    </div>
+    
+<!-- Tickets @ TD Garden Info Section -->
+<div class="section tickets-info-section">
+    <h3>Tickets @ {{ team_data.venue.name }} Info</h3>
+    <div class="scroll-container">
+        {% for seat_category, details in seating_options_tips.items() %}
+            <div class="amenity-item">
+                <h4 class="amenity-name">{{ seat_category.replace('_', ' ') | title }}</h4>
+                <div class="amenity-details">
+                    <p>{{ details.Description }}</p>
+                    <ul class="amenity-list">
+                        <li><strong>Estimated Pricing Range: 💰</strong> {{ details.Estimated_Pricing_Range }}</li>
+                        <li><strong>View Quality: 🕶️</strong> {{ details.View_Quality }}</li>
+                        <li><strong>Unique Features: 🌟</strong> {{ details.Unique_Features }}</li>
+                        <li><strong>Special Perks: 🍹</strong> {{ details.Special_Perks }}</li>
+                    </ul>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+    
+
+    <div class="section public-transportation">
+        <h3>Public Transportation</h3>
+        <div class="scroll-container">
+            {% for option in team_data.venue.public_transportation.options %}
+                <div class="amenity-item">
+                    <span class="amenity-name">{{ option.type }}:</span> 
+                    {{ option.description }}
+                    <a href="{{ option.map_link }}" target="_blank" class="view-map-link">View Map</a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <div class="section restaurants-bars-section">
+        <h3>Restaurants & Bars</h3>
+        <div class="scroll-container">
+            {% for amenity in team_data.venue.nearby_amenities.restaurants_bars %}
+                <div class="amenity-item" onclick="highlightMarker('{{ amenity.name }}')">
+                    <span class="amenity-name">{{ amenity.name }}</span> - {{ amenity.description }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+ 
+    <!-- Accommodations Section -->
+<div class="section accommodations-section">
+    <h3>Accommodations</h3>
+    <div class="scroll-container">
+        {% for amenity in team_data.venue.nearby_amenities.accommodations %}
+            <div class="amenity-item" onclick="highlightMarker('{{ amenity.name }}')">
+                <span class="amenity-name">{{ amenity.name }} </span> - {{ amenity.description }}
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Tourist Attractions Section -->
+<div class="section tourist-attractions-section">
+    <h3>Things to do in {{ team_data.city }}</h3>
+    <div class="scroll-container">
+        {% for attraction in team_data.venue.nearby_amenities.tourist_attractions %}
+            <div class="amenity-item" onclick="highlightMarker('{{ attraction.name }}')">
+                <span class="amenity-name">{{ attraction.name }}</span> - {{ attraction.description }}
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Team Related Activities Section -->
+<div class="section team-related-activities-section">
+    <h3>{{ team_data.team }} Activities in {{ team_data.city }}</h3>
+    <div class="scroll-container">
+        {% for activity in team_data.venue.nearby_amenities.team_related_activities %}
+            <div class="amenity-item" onclick="highlightMarker('{{ activity.name }}')">
+                <span class="amenity-name">{{ activity.name }}</span> - {{ activity.description }}
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+    <div class="section ticket-purchasing-tips">
+        <h3>Ticket Purchasing Tips</h3>
+        <strong>Best Places to Buy:</strong>
+        <ul>
+            {% for place in team_data.venue.ticket_purchasing_tips.best_places_to_buy | default([]) %}
+                <li>
+                    <a href="{{ place.website }}" target="_blank">{{ place.name }}</a> - {{ place.description }}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    
+
+
+    
+    <div class="section avoiding-scams">
+        <h3>Avoiding Scams</h3>
+        <p><strong>Avoiding Scalpers:</strong> {{ team_data.venue.ticket_purchasing_tips.avoiding_scalpers }}</p>
+    </div>
+    
+
+     
+
+      
+  </body>
+</html>

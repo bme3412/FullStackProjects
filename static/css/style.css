@@ -1,0 +1,590 @@
+/* Body Styles */
+body, html {
+    font-size: 16px;
+    font-family: 'Open Sans', sans-serif;
+    background: #FAFAFA;
+    color: #333;
+    line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    color: #333;
+    font-weight: 700;
+}
+
+p, a {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    color: #666;
+    transition: color 0.2s ease-in-out;
+}
+
+a:hover, a:focus {
+    color: #0056b3;
+}
+
+/* Navbar Styles */
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@700&display=swap');
+
+.navbar {
+    background-color: #2C3E50;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.navbar .logo {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: white;
+    font-family: 'Lato', sans-serif;
+    letter-spacing: 1px;
+}
+
+.navbar .menu {
+    display: flex;
+    justify-content: center;
+    flex: 2;
+}
+
+.navbar .menu a {
+    color: #BDC3C7;
+    text-decoration: none;
+    margin: 0 15px;
+    padding: 0.5rem;
+    transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
+    border-radius: 4px;
+}
+
+.navbar .menu a:hover {
+    color: #ECF0F1;
+    background-color: #34495E;
+}
+
+.ad-text {
+    font-size: 18px; /* Slightly larger for more prominence */
+    color: #333;
+    text-align: right;
+    margin-right: 20px;
+    line-height: 1.6;
+    font-weight: 500; /* Increase weight for boldness */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1); /* Soft shadow for depth */
+}
+
+.ad-text p {
+    margin-bottom: 0; /* Remove default bottom margin */
+}
+
+.highlight {
+    color: #ff5733;
+    font-weight: bold;
+    text-transform: uppercase; /* Make highlighted text uppercase for emphasis */
+}
+
+/* Enhanced Highlighting for Selected Table Row */
+.highlighted {
+    background-color: #00FA9A; /* More green and vibrant, less seafoam */
+    color: #333; /* Dark text for contrast */
+    transition: background-color 0.3s ease; /* Smooth transition for visual feedback */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2); /* Enhanced text shadow for better visibility */
+}
+
+
+
+/* User Actions Styles */
+.user-actions {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-actions a {
+    color: #AAB7C4;
+    margin: 0.5px 0;
+    text-decoration: none;
+    padding: 0.4rem;
+    transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
+    border-radius: 4px;
+}
+
+.user-actions a:hover {
+    color: #D6EAF8;
+    background-color: #2C3E50;
+}
+
+/* Unified League Section Styles */
+.league-section {
+    padding: 15px;
+    overflow-y: auto;
+}
+
+.league-section h2 {
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+    color: #333;
+    font-weight: 700;
+}
+
+.league-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.league-section li a {
+    display: block;
+    padding: 5px 0;
+    color: #007bff;
+    font-size: 0.85rem;
+    transition: color 0.2s ease-in-out;
+}
+
+.league-section li a:hover {
+    color: #0056b3;
+    background-color: #ddd;
+    border-radius: 4px;
+}
+
+/* Search Area Styles */
+.search-area {
+    background: #FFFFFF;
+    border-radius: 8px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px auto;
+    max-width: 1300px;
+    border: 1px solid black;
+}
+
+.search-area form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.input-group input,
+.input-group button,
+.date-range-group input,
+.date-range-group button,
+.city-search-group input,
+.city-search-group button {
+    padding: 10px 15px;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.date-range-group,
+.city-search-group {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.date-range-group label,
+.city-search-group label {
+    margin-right: 10px;
+}
+
+.date-range-group input[type="date"] {
+    flex: 1;
+    margin-right: 10px;
+    padding: 10px 15px;
+    border: 2px solid #ff5733;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.date-range-group button,
+.city-search-group button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.date-range-group button:hover,
+.city-search-group button:hover {
+    background-color: #0056b3;
+}
+
+input:focus, button:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+
+/* Sidebar and League Section Styling */
+aside {
+    background-color: #f4f4f4;
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.league-section {
+    margin-bottom: 15px; /* Reduces bottom margin for less space between sections */
+}
+
+.league-section h2 {
+    font-size: 1rem; /* Slightly larger for section headings */
+    margin-bottom: 10px; /* Less space below headings */
+    font-weight: 600; /* Bold but not too heavy */
+}
+
+/* Tightening Space Between League Items */
+.league-section ul {
+    list-style: none;
+    padding: 0; /* Eliminates default padding */
+    margin: 0; /* Eliminates default margin */
+}
+
+.league-section li {
+    margin-bottom: 2px; /* Further reduces space between items */
+}
+
+.league-section li a {
+    font-size: 0.85rem;
+    color: #007bff;
+    padding: 2px 0; /* Reduces vertical padding */
+    display: block; /* Ensures the clickable area extends the full width */
+}
+
+
+/* Removes the need for a scrollbar unless necessary */
+aside {
+    max-height: auto; /* Adjusts height automatically to content */
+    overflow-y: auto; /* Shows scrollbar only when necessary */
+}
+
+
+/* Making Event Details Sticky */
+#event-details {
+    position: -webkit-sticky; /* For Safari */
+    position: sticky;
+    top: 0; /* Adjusts to stick to the top of the sidebar */
+    padding: 5px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    z-index: 2; /* Ensure it stays above other content */
+}
+
+/* "More Details" Button Styling - No changes from previous suggestion */
+#more-details-btn {
+    display: block;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 1rem;
+    width: 100%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    transition: background-color 0.3s ease;
+}
+
+#more-details-btn:hover {
+    background-color: #0056b3;
+}
+
+#details-wrapper {
+    background-color: #ffffff; /* Optional: if you want a unified background */
+    margin-bottom: 15px;
+    border-radius: 5px; /* Consistent with your style */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* Consistent with your style */
+    width: 117%; /* Ensures it occupies only the available space within its parent */
+    
+    box-sizing: border-box; /* Includes padding and border in the element's total width */
+    padding: 10px; /* Adjust as necessary for your design */
+    margin: 0;
+
+    /* Highlighting or border outline */
+    border: 2px solid #ff5733; /* Adjust thickness and color as needed */
+}
+
+
+
+.page-container {
+    display: flex;
+    flex-direction: row; /* Arrange children side by side */
+    margin-top: 20px; /* Space below the navbar */
+}
+
+.basketball-leagues {
+    flex: 0 0 15%; /* Assign 15% of the parent container's width to the sidebar */
+    padding: 15px; /* Adjust as needed */
+    overflow-y: auto; /* For scrolling if content is too long */
+    /* Remove min-width or adjust it to ensure content fits */
+}
+
+
+
+.basketball-leagues ul {
+    list-style: none;
+    padding: 0;
+}
+
+
+.basketball-leagues h2, .basketball-leagues li a {
+    font-size: 0.85rem; /* Consistent font size in the aside */
+}
+
+.basketball-leagues li a:hover {
+    background-color: #ddd;
+    border-radius: 4px;
+}
+
+
+/* Main Content and City Info Styles */
+main {
+    flex: 0 0 78%; /* Adjust main content to take up the rest of the space */
+    padding: 5px;
+    background-color: #FFFFFF;
+    border-radius: 4px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.content-container {
+    display: flex;
+    flex-direction: row; /* Ensure side-by-side layout */
+    align-items: flex-start; /* Align items to the start of the container */
+    width: 100%; /* Full width of the viewport */
+    max-width: 1200px; /* Or another maximum width if preferred */
+    margin: 20px auto; /* Center the container */
+    box-sizing: border-box; /* Include padding and border in the element's total width */
+}
+
+.basketball-leagues, main {
+    box-sizing: border-box; /* Include padding and border in the element's total width */
+}
+
+.table-container {
+    flex: 0 0 70%; /* Allocates 70% of the container width to the table-container */
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* Keeps the shadow and border-radius intact */
+}
+
+.sidebar {
+    flex: 0 0 23%;
+    padding-left: 0px;
+}
+
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 20px;
+    background-color: #FFFFFF;
+}
+
+/* Specific styling for table header */
+thead {
+    background-color: #0047AB; /* Bold blue background */
+    color: white; /* White text for contrast */
+}
+
+th, td {
+    text-align: left;
+    padding: 12px 15px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+/* Ensuring the header text is bold and white */
+thead th {
+    font-weight: 600; /* Bold for emphasis */
+    color: white; /* Correcting the color for readability */
+}
+
+/* Adjusting table font size */
+table, th, td {
+    font-size: 0.8rem; /* Reduce font size to help content fit on one line */
+}
+
+/* Additional table styles for readability with smaller font */
+th, td {
+    padding: 8px 10px; /* Adjust padding to balance the smaller font size */
+}
+
+
+th:first-child, td:first-child {
+    border-left: none;
+}
+
+th:last-child, td:last-child {
+    border-right: none;
+}
+
+/* Sticky header for better user experience */
+thead th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+
+
+/* Base styles for the event details container */
+.event-details-container {
+    max-width: 800px;
+    margin: 5px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Unified text styles for headers, strong text, and back link within the event details container */
+.event-details-container h1,
+.event-details-container strong,
+.event-details-back-link,
+.info-title {
+    color: #2C3E50; /* Dark blue color for text */
+    text-align: center; /* Centered text alignment */
+}
+
+/* Paragraph and list item styles within the event details */
+.event-details-container p,
+.info-list li {
+    font-size: 1rem; /* Standard font size */
+    line-height: 1.5; /* Improved readability with increased line height */
+    color: #333; /* Dark gray color for text */
+    margin-bottom: 10px; /* Uniform bottom margin for spacing */
+}
+
+/* Enhanced color styling for strong elements, links, and icons */
+.event-details-container strong,
+.event-details-back-link,
+.info-list i {
+    color: #0056b3; /* Bright blue for emphasis */
+}
+
+/* Specific styles for the back link for better visual feedback */
+.event-details-back-link {
+    display: inline-block;
+    margin-top: 20px;
+    text-decoration: none; /* Remove underline */
+    border-bottom: 1px solid transparent; /* Transparent border for a subtle effect */
+    transition: border-color 0.2s ease-in-out; /* Smooth transition for hover effect */
+}
+
+.event-details-back-link:hover,
+.event-details-back-link:focus {
+    border-bottom-color: #0056b3; /* Change border color on hover/focus for visibility */
+}
+
+.highlight {
+    color: red; /* Change this color to match your design */
+}
+
+/* Sidebar container */
+.sidebar-container {
+    max-width: 150px; /* Adjust based on your layout needs */
+    margin: auto; /* Centers the sidebar within its parent */
+    padding: 0px; /* Provides internal spacing */
+    box-sizing: border-box; /* Ensures padding is included in the width */
+}
+
+
+/* Additional info box within the sidebar */
+#additional-info, .info-box {
+    padding: 0px;
+    background-color: #f8f9fa; /* Light background for better contrast */
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    font-size: 0.9rem;
+    line-height: 1.4;
+    color: #333;
+    text-align: center;
+    margin-top: 0px;
+    margin-bottom: 10px;
+    /* Ensure it does not exceed the sidebar container width */
+    width: auto; /* Adjusts width to content or container */
+    max-width: 100%; /* Prevents overflow outside the sidebar */
+}
+
+/* Enhanced styling for the information box */
+.info-box {
+    background-color: #e8f4f8; /* Specific background color */
+    padding: 2px; /* Adjusted padding */
+    border-radius: 8px; /* Specific border-radius */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* Adjusting icon spacing and alignment */
+.info-list li i {
+    margin-right: 8px; /* Adjust the right margin for optimal space between icon and text */
+}
+
+/* Styling the list items for left alignment and professional appearance */
+.info-list {
+    padding-left: 0; /* Removes default list padding to align icons to the left edge */
+    list-style-type: none; /* Removes default list item bullets */
+}
+
+.info-list li {
+    display: flex;
+    align-items: center; /* Ensures icons and text align on the same line */
+    margin-bottom: 12px; /* Adjusts spacing between list items for clarity */
+    font-size: 0.95rem; /* Slightly smaller font size for a more professional look */
+    line-height: 1.4; /* Improves readability */
+}
+
+/* Optional: Enhancing the visual hierarchy and readability */
+.info-title {
+    margin-bottom: 16px; /* Provides more space between the title and the list */
+    font-size: 1.1rem; /* Slightly larger font size for the title for emphasis */
+    font-weight: bold; /* Makes the title stand out */
+}
+
+/* Ensuring the entire block aligns to the left */
+#additional-info {
+    text-align: left; /* Aligns the text inside the additional info box to the left */
+}
+
+
+/* Button styles within the sidebar */
+.info-btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.info-btn:hover {
+    background-color: #0056b3;
+}
+
+
+@media screen and (max-width: 768px) {
+    sidebar-container, #details-wrapper {
+        max-width: 100%; /* Allows the sidebar and details-wrapper to fit smaller screens */
+        padding: 10px;
+        margin: 0 auto; /* Ensures center alignment on smaller screens */
+    }
+}

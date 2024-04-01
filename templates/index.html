@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Schedule for {{ city_name | default('BeforeTipOff') }}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/colresizable/1.6.0/colResizable-1.6.min.js" integrity="sha512-pMZ2rgWRGMywzbRAVwGk+auTREN0ldKKjACUSB4cneTgD3kn/6pu//Lxi4l8xSRkY83HENr1vztTnGDySWs0Mg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="static/js/script.js"></script>
+</head>
+<body>
+<header>
+    <nav class="navbar">
+        <div class="logo">BeforeTipOff 🏆 <br>🏀 ⚽ ⚾ 🎾 🏒 🏈 </div>
+        <div class="menu">
+            <a href="#" aria-label="Concerts">Sports</a>
+            <a href="#" aria-label="Sports">Music</a>
+            <a href="#" aria-label="Arts & Theatre">Arts & Theatre</a>
+        </div>
+        
+        
+        <div class="user-actions">
+            <a href="" aria-label="Home">Home</a>
+            <a href="#" aria-label="About">About</a>
+            <a href="#" aria-label="Contact">Contact</a>
+        </div>
+    </nav>
+    
+    <div class="search-area">
+        <form method="post">
+            <div class="input-group">
+                <input type="text" name="city_name" placeholder="Enter city name..." id="city-input" aria-label="City Name" />
+                <button type="submit" id="city-search-btn">Search City</button>
+            </div>
+            <div class="input-group date-range-group">
+                <label for="start-date">Start Date:</label>
+                <input type="date" name="start_date" id="start-date" aria-label="Start Date" value="{{ start_date }}" />
+                <label for="end-date">End Date:</label>
+                <input type="date" name="end_date" id="end-date" aria-label="End Date" />
+                <button type="submit" id="date-range-search-btn">Filter Date Range</button>
+            </div>
+        </form>
+    </div>
+</header>
+<div class="page-container">
+    <aside>
+        <div class="league-section basketball-leagues">
+            <h2>Basketball</h2>
+            <ul>
+                <li><a href="#">NBA</a></li>
+                <li><a href="#">EuroLeague</a></li>
+                <li><a href="#">NBL (Australia)</a></li>
+                <li><a href="#">Basketball Bundesliga (Germany)</a></li>
+            </ul>
+        </div>
+
+        <div class="league-section soccer-leagues">
+            <h2>Soccer</h2>
+            <ul>
+                <li><a href="#">Premier League (England)</a></li>
+                <li><a href="#">La Liga (Spain)</a></li>
+                <li><a href="#">Bundesliga (Germany)</a></li>
+                <li><a href="#">Serie A (Italy)</a></li>
+                <li><a href="#">Ligue 1 (France)</a></li>
+                <li><a href="#">Major League Soccer (USA)</a></li>
+            </ul>
+        </div>
+
+        <div class="league-section american-football-leagues">
+            <h2>American Football</h2>
+            <ul>
+                <li><a href="#">National Football League (NFL)</a></li>
+                <li><a href="#">Canadian Football League (CFL)</a></li>
+                <li><a href="#">NCAA Division I Football Bowl Subdivision (FBS)</a></li>
+                <li><a href="#">XFL (United States)</a></li>
+                <li><a href="#">AAF (Alliance of American Football)</a></li>
+            </ul>
+        </div>
+        
+
+        <div class="league-section baseball-leagues">
+            <h2>Baseball</h2>
+            <ul>
+                <li><a href="#">Major League Baseball (USA)</a></li>
+                <li><a href="#">Nippon Professional Baseball (Japan)</a></li>
+                <li><a href="#">Korean Baseball Organization (South Korea)</a></li>
+                <li><a href="#">Mexican Pacific League (Mexico)</a></li>
+            </ul>
+        </div>
+
+        <div class="league-section hockey-leagues">
+            <h2>Hockey</h2>
+            <ul>
+                <li><a href="#">National Hockey League (USA/Canada)</a></li>
+                <li><a href="#">Swedish Hockey League (Sweden)</a></li>
+                <li><a href="#">Finnish Liiga (Finland)</a></li>
+                <li><a href="#">Czech Extraliga (Czech Republic)</a></li>
+            </ul>
+        </div>
+
+
+    </aside>
+
+    <main>
+        <div class="content-container">
+            <div class="table-container">
+                {% if events_data %}
+                <p>Showing info for {{ events_data | length }} 🏀 games from today to {{ events_data[-1]['Date'] | format_date('%m/%d/%Y') }}:</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Start (Local)</th>
+                            <th>Visitor Team</th>
+                            <th>Home Team</th>
+                            <th>Location</th>
+                            <th>Arena</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for event in events_data %}
+                        <tr data-event-id="{{ event['EventID'] }}"
+                            data-city="{{ (event['Location'] or 'Boston').split(',')[0] }}"
+                            data-team="{{ event['Home/Neutral'] | replace(' ', '') | default('Celtics') }}">
+                            <td>{{ event['Date'] | format_date('%m/%d/%Y') }}</td>
+                            <td>{{ event['Start (ET)'] | default('TBD') }}</td>
+                            <td>{{ event['Visitor/Neutral'] }}</td>
+                            <td>{{ event['Home/Neutral'] }}</td>
+                            <td>{{ event['Location'] }}</td>
+                            <td>{{ event['Arena'] }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <p>No events found for this city.</p>
+                {% endif %}
+            </div>
+            
+            <div class="sidebar">
+                <div id="details-wrapper">
+                    <div id="additional-info" class="info-box">
+                        <p class="info-title">Are you going to the game? <br>Need help on what else to do?<br><span class="highlight">We got you covered!</span></p>
+                        <ul class="info-list">
+                            <li><i class="fas fa-ticket-alt"></i> Get info on buying event tickets</li>
+                            <li><i class="fas fa-bus"></i> Transportation and directions</li>
+                            <li><i class="fas fa-hotel"></i> Where to stay overnight?</li>
+                            <li><i class="fas fa-binoculars"></i> Explore the area - what to see</li>
+                            <li><i class="fas fa-utensils"></i> Find the best place to eat before...</li>
+                            <li><i class="fas fa-cocktail"></i> ...and where to go after the game</li>
+                            <li><i class="fas fa-sun"></i> What's the weather like?</li>
+                            <li><i class="fas fa-map-marked-alt"></i> View locations on a map</li>
+                        </ul>
+                        
+                    </div>
+                    <div id="event-details"></div>
+                    <button id="more-details-btn" class="info-btn">More Info</button>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>
