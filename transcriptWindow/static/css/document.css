@@ -1,0 +1,53 @@
+/* document.css */
+/* Ensures that the root elements take full viewport height */
+html, body {
+    height: 100vh;
+    margin: 0; /* Resets default margin */
+    padding: 0; /* Resets default padding */
+}
+
+/* Uses flexbox layout for container, laid out horizontally */
+.container {
+    display: flex;
+    flex-direction: row;
+    height: 100vh; /* Sets the container height to full viewport */
+}
+
+.left-pane, .right-pane {
+    flex: 1;
+}
+
+/* Styles for the document window to take full height and grow */
+.document-window {
+    width: 100%; /* Change width to 100% to fill the container */
+    height: 100%; /* Change height to 100% to fill the container */
+    overflow: auto; /* Adds scroll if content is larger than the container */
+    margin-top: 20px;
+}
+
+/* Ensures text files fill the space and are scrollable if content overflows */
+.document-window pre {
+    width: 100%;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    overflow: auto; /* Adds a scrollbar if content overflows */
+}
+
+.document-window p {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.document-window pre {
+    white-space: pre-wrap;
+    font-family: monospace;
+    font-size: 14px;
+    line-height: 1.4;
+    margin-bottom: 20px;
+}
+
+.document-window mark {
+    background-color: yellow;
+    font-weight: bold;
+}

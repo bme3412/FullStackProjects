@@ -1,0 +1,132 @@
+/* home.css */
+
+/* Sets the full viewport height for root elements */
+html, body {
+    height: 100vh;
+    margin: 0; /* Resets default margin */
+    padding: 0; /* Resets default padding */
+}
+
+/* Flexbox layout for the container */
+.container {
+    display: flex;
+    flex-direction: row;
+    height: 100vh; /* Full height of the viewport */
+}
+
+/* Styles for the left pane */
+.left-pane {
+    width: 50%; /* Half of the viewport width */
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-right: 1px solid #ccc;
+    box-sizing: border-box; /* Includes padding and border in the element's width */
+}
+
+/* Styles for the right pane to take remaining space */
+.right-pane {
+    flex-grow: 1; /* Allows right pane to grow and use available space */
+    padding: 20px;
+    box-sizing: border-box; /* Includes padding and border in the element's size */
+    display: flex;
+    flex-direction: column; /* Aligns children vertically */
+}
+
+/* Styles for the document window to take up all available space */
+.document-window {
+    flex-grow: 1; /* Allows it to expand and fill available vertical space */
+    width: 680px; /* Fixed width as per document.css */
+    height: 503px; /* Fixed height as per document.css */
+    overflow: auto; /* Adds scroll if content is larger than container */
+    border: 1px solid #ccc; /* Adds a border */
+    background-color: #fff; /* Sets background color to white */
+    padding: 0; /* Removes padding */
+    margin-top: 20px;
+}
+
+/* Ensures embedded documents take full width and height of their container */
+.document-window embed,
+.document-window iframe,
+.document-window object {
+    width: 100%;
+    height: 100%;
+    display: block;
+    border: none; /* Removes border */
+}
+
+/* Styles for preformatted text to wrap and fill space */
+.document-window pre {
+    white-space: pre-wrap;
+    padding: 0; /* Removes padding */
+    margin: 0; /* Removes margin */
+    width: 100%; /* Full width */
+    height: auto; /* Auto height for content adaptability */
+    overflow: auto; /* Adds a scrollbar if content overflows */
+}
+
+/* Styles for hiding the file input and customizing the file upload button */
+.upload-form input[type="file"] {
+    display: none;
+}
+
+.custom-file-upload {
+    display: inline-block;
+    padding: 8px 15px;
+    background-color: #2196F3;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.custom-file-upload:hover {
+    background-color: #0b7dda;
+}
+
+.custom-file-upload i {
+    margin-right: 5px;
+}
+
+pre {
+    white-space: pre-wrap;
+    font-family: monospace;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+/* ... previous styles ... */
+
+.response-box {
+    margin-top: 20px;
+}
+
+.response-box h3 {
+    margin-bottom: 10px;
+}
+
+.response-box pre {
+    white-space: pre-wrap;
+    font-family: monospace;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+
+
+.document-window p {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.document-window pre {
+    white-space: pre-wrap;
+    font-family: monospace;
+    font-size: 14px;
+    line-height: 1.4;
+    margin-bottom: 20px;
+}
+
+.document-window mark {
+    background-color: yellow;
+    font-weight: bold;
+}

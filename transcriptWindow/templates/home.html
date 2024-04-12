@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Document Viewer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+</head>
+<body>
+    <div class="container">
+        <div class="left-pane">
+            <div class="notes-box">
+                <h3>Notes</h3>
+                <textarea id="notes" rows="8" cols="50"></textarea>
+            </div>
+            <div class="search-box">
+                <h3>Search</h3>
+                <input type="text" id="search-query" placeholder="Enter search query" />
+                <button onclick="searchDocument()">Search</button>
+                <div class="search-options">
+                    <label><input type="checkbox" id="include-citations" /> Include Citations</label>
+                </div>
+                <div class="search-actions">
+                    <button onclick="saveOutcome()">Save Outcome</button>
+                    <button onclick="shareQuery()">Share Query</button>
+                </div>
+            </div>
+            <div class="response-box">
+                <h3>Response</h3>
+                <pre id="response-content"></pre>
+            </div>
+        </div>
+        <div class="right-pane">
+            <h2>Document Viewer</h2>
+            <div class="document-window">
+                <div id="document-placeholder">No document uploaded.</div>
+                <div id="document-content"></div>
+            </div>
+            <form id="upload-form" action="/upload" method="post" enctype="multipart/form-data">
+                <div>
+                    <label for="document" class="custom-file-upload">
+                        <i class="fa fa-cloud-upload"></i> Choose File
+                    </label>
+                    <input type="file" id="document" name="document" accept=".pdf,.doc,.docx,.txt" />
+                </div>
+                <div>
+                    <input type="submit" value="Upload" />
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/home.js') }}"></script>
+</body>
+</html>
