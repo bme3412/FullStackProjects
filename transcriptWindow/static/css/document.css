@@ -51,3 +51,7 @@ html, body {
     background-color: yellow;
     font-weight: bold;
 }
+
+mark {
+    background-color: yellow;
+  }

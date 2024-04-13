@@ -9,6 +9,7 @@ import docx
 from langchain.indexes import VectorstoreIndexCreator
 from langchain.text_splitter import CharacterTextSplitter
 from langchain_community.document_loaders import TextLoader
+from langchain_community.document_loaders import Docx2txtLoader
 from langchain_openai import OpenAIEmbeddings
 from langchain_community.vectorstores import Chroma
 from langchain_openai import OpenAI
@@ -36,6 +37,7 @@ def upload_file():
             file = request.files['document']
             if file:
                 filename = secure_filename(file.filename)
+                app.logger.info(f"Uploaded file name: {filename}")  # Log the uploaded file name
                 file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
                 file.save(file_path)
 
@@ -101,12 +103,13 @@ def search_document():
         data = request.get_json()
         query = data.get('query')
         filename = data.get('filename')
+        app.logger.info(f"Search file name: {filename}")  # Log the search file name
         file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-
-        # Load the uploaded file and extract the text
-        loader = UnstructuredPDFLoader(file_path)
+        
+        # Load the uploaded .docx file and extract the text
+        loader = Docx2txtLoader(file_path)
         documents = loader.load()
-        text_splitter = CharacterTextSplitter(chunk_size=2000, chunk_overlap=0)
+        text_splitter = CharacterTextSplitter(chunk_size=4000, chunk_overlap=200)
         texts = text_splitter.split_documents(documents)
 
         # Create a vector store index
@@ -117,53 +120,37 @@ def search_document():
         qa = RetrievalQA.from_chain_type(llm=OpenAI(), chain_type="stuff", retriever=docsearch.as_retriever())
 
         # Perform the search and get the relevant text
-        # In your search_document function after running the query
         relevant_text = qa.invoke(query)
-        doc_texts = [doc.page_content for doc in documents]  # Assuming `documents` is a list of your document chunks
-
-        # Convert relevant_text to a string
-        relevant_text_str = str(relevant_text)
-
-        # Embed both the query results and the document texts
-        query_embeds = embeddings.embed_query(relevant_text)
-        doc_embeds = embeddings.embed_documents(doc_texts)
-
-        # Calculate similarities between the query embedding and each document embedding
-        similarities = [cosine_similarity(query_embeds, doc_emb) for doc_emb in doc_embeds]
-
-        # Find the index of the maximum similarity score
-        max_similarity_index = np.argmax(similarities)
-
-        # Use the index to get the most similar text
-        highlight_text = doc_texts[max_similarity_index]
+        app.logger.info(f"Relevant text: {relevant_text}")  # Log the relevant text
 
         # Collect information for attribution
         attribution_info = []
-        for i, doc in enumerate(qa.retriever.get_relevant_documents(query)):
-            # Add the most similar text from the highest similarity index
-            if i == max_similarity_index:
-                highlighted_text = f"<mark>{highlight_text}</mark>"
-            else:
-                highlighted_text = doc.page_content
+        for doc in qa.retriever.get_relevant_documents(query):
             attribution_info.append({
                 'page_number': doc.metadata.get('page', 'N/A'),
-                'text': highlighted_text
+                'text': doc.page_content
             })
+        app.logger.info(f"Attribution info: {attribution_info}")  # Log the attribution info
 
         # Prepare the response
-        response = make_response(jsonify({
+        response_data = {
             'success': True,
             'content': relevant_text,
             'attribution': attribution_info
-        }))
+        }
+        app.logger.info(f"Response data: {response_data}")  # Log the response data
+
+        response = make_response(jsonify(response_data))
         response.headers['Content-Type'] = 'application/json'
         return response
+
     except Exception as e:
         app.logger.error(f"Error during search: {str(e)}")
         response = make_response(
-            jsonify({'success': False, 'message': 'An error occurred during the search.'}))
+            jsonify({'success': False, 'message': str(e)}))
         response.headers['Content-Type'] = 'application/json'
-        return response, 500
+        return response, 404
+
 
 def cosine_similarity(vec1, vec2):
     # Calculate cosine similarity as 1 minus the cosine distance

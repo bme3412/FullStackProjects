@@ -86,11 +86,12 @@ setTimeout(() => {
   window.dispatchEvent(new Event("resize"));
 }, 1000); // Delay might need adjustment based on content loading times
 
+
 function searchDocument() {
   const query = document.getElementById("search-query").value;
   const responseContent = document.getElementById("response-content");
-  const documentContent = document.getElementById("document-content");
-  const filename = document.getElementById("document").value.split("\\").pop(); // Get the filename from the file input
+  const attributionList = document.getElementById("attribution-list");
+  const filename = document.getElementById("document").value.split("\\").pop();
 
   fetch("/search", {
     method: "POST",
@@ -101,34 +102,49 @@ function searchDocument() {
   })
     .then((response) => response.json())
     .then((data) => {
+      console.log("Response data:", data);  // Log the response data
+      
       if (data.success) {
-        responseContent.textContent = data.content;
-        let attributionHtml = "";
+        if (typeof data.content === 'string') {
+          responseContent.textContent = data.content;
+        } else {
+          responseContent.textContent = JSON.stringify(data.content, null, 2);
+        }
+        
+        attributionList.innerHTML = "";
+
         data.attribution.forEach((info) => {
-          attributionHtml += `<p>Page ${info.page_number}:</p>`;
-          attributionHtml += `<pre>${highlightText(
-            info.text,
-            data.termsToHighlight
-          )}</pre>`; // Now dynamically highlighting based on backend analysis
+          const li = document.createElement("li");
+          li.innerHTML = `
+            <p>Page ${info.page_number}:</p>
+            <pre>${info.text}</pre>
+          `;
+          attributionList.appendChild(li);
         });
-        documentContent.innerHTML = attributionHtml;
+
+        highlightText(data.content);
       } else {
         responseContent.textContent = "No results found.";
-        documentContent.innerHTML = "";
+        attributionList.innerHTML = "";
       }
     })
-
     .catch((error) => {
       console.error("Error:", error);
       responseContent.textContent = "An error occurred during the search.";
-      documentContent.innerHTML = "";
+      attributionList.innerHTML = "";
     });
 }
 
-function highlightText(text, termsToHighlight) {
-  termsToHighlight.forEach((term) => {
-    const regex = new RegExp(term, "gi"); // Ensure case-insensitive matching
-    text = text.replace(regex, "<mark>$&</mark>");
-  });
-  return text;
+function highlightText(searchTerm) {
+  const documentContent = document.getElementById("document-content");
+  const text = documentContent.innerText;
+
+  if (typeof text === "string") {
+    const regex = new RegExp(searchTerm, "gi");
+    const highlightedText = text.replace(regex, "<mark>$&</mark>");
+
+    documentContent.innerHTML = highlightedText;
+  } else {
+    console.error("Error: Document content is not a string.");
+  }
 }
